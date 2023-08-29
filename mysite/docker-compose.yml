@@ -1,0 +1,32 @@
+version: '3.9'
+
+services:
+  db:
+    image: mysql
+    container_name: mysql_service
+    volumes:
+      - ../volumes-mysql/mysql/:/var/lib/mysql/
+    environment: 
+      MYSQL_ROOT_PASSWORD: "${DB_ROOT_PASSWORD}"
+      MYSQL_DATABASE: "${DB_DATABASE}"
+      MYSQL_USER: "${DB_USER}"
+      MYSQL_PASSWORD: "${DB_PASSWORD}"
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_general_ci
+    ports:
+      - "3306:3306"
+  
+  django:
+    build: .
+    container_name: for_django
+    volumes: 
+      - ./:/app/
+    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    environment: 
+      MYSQL_ROOT_PASSWORD: "${DB_ROOT_PASSWORD}"
+      MYSQL_DATABASE: "${DB_DATABASE}"
+    depends_on: 
+      - db
+    stdin_open: true
+    tty: true
+    ports:
+      - "8080:8000"
