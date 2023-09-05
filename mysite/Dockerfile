@@ -3,7 +3,7 @@ FROM python:3.7
 RUN apt-get install default-libmysqlclient-dev gcc  -y
 
 RUN pip3 install mysqlclient
-RUN pip install django
+RUN pip install django numpy pandas matplotlib scikit-learn
 WORKDIR /app/
 
 COPY . .

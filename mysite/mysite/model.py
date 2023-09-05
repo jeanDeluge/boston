@@ -7,7 +7,7 @@ import sklearn
 
 class Model:
     def __init__(self, request) -> None:
-        self.boston = pd.read_csv('./static/boston.csv')
+        self.boston = pd.read_csv('static/boston.csv')
         self.variables = request["variables"]
         self.values = request["values"]
         self.result = []
